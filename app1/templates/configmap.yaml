@@ -5,7 +5,7 @@ metadata:
 data:
   TIMEZONE: {{ .Values.timezone }}
   TIME: {{ .Values.time }}
---
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -14,4 +14,4 @@ data:
   run.sh: |
     #!/bin/bash
     
-    while true; do echo 'Last deployment made at $TIMEZONE - $TIME'; sleep 10; done
+    while true; do echo "Last deployment made at $TIMEZONE - $TIME"; sleep 10; done

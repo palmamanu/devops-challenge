@@ -1,3 +1,38 @@
-timezone: ''
+# Default values for devops-challenge.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
 
-time: ''
+# Application details
+app:
+  name: "app1"
+  replicas: 1
+
+# Timezone for the app. You can overwrite it with your own timezone.
+timezone: "Europe/Madrid"
+
+# Time at which the deployment is done. You can overwrite it with your own time.
+time: "00:00"
+
+# Details for the application's container
+container:
+  # The name of the container
+  name: "api"
+  
+  # The Docker image
+  image: "debian:bullseye-slim"
+  
+  # Command to be run in the container
+  command: "/bin/bash -c ./script/run.sh"
+  
+  # The ConfigMap used for environment variables
+  envConfigMap: "app1-configmap"
+  
+  # Details about the volume mounts in the container
+  volumeMounts:
+    name: "script"
+    mountPath: "/script"
+  
+# Details about the volumes in the pod
+volumes:
+  name: "script"
+  configMap: "script-configmap"

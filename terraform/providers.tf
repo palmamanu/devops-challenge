@@ -1,49 +1,51 @@
 terraform {
   required_providers {
-    random      = {
+    random = {
       source  = "hashicorp/random"
       version = "3.4.3"
     }
-    google      = {
+    google = {
       source  = "hashicorp/google"
       version = "4.49.0"
     }
-    kubernetes  = {
+    kubernetes = {
       source  = "hashicorp/kubernetes"
       version = "2.16.1"
     }
-    helm        = {
+    helm = {
       source  = "hashicorp/helm"
       version = "2.8.0"
     }
-    http        = {
-      source  = "hashicorp/http"
+    http = {
+      source = "hashicorp/http"
     }
   }
 }
 
+# Google Cloud provider
 provider "google" {
-    region  = "europe-southwest1"
+  project = var.project_id
+  region  = var.region
 }
 
+# Google Cloud client config data
 data "google_client_config" "default" {}
 
+# Kubernetes provider
 provider "kubernetes" {
-    host                      = "https://${google_container_cluster.cluster.endpoint}"
-    token                     = data.google_client_config.default.access_token
-    cluster_ca_certificate    = base64decode(
-        google_container_cluster.cluster.master_auth[0].cluster_ca_certificate
-    )
+  host                   = google_container_cluster.cluster.endpoint
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(google_container_cluster.cluster.master_auth[0].cluster_ca_certificate)
 }
 
+# Helm provider
 provider "helm" {
-    kubernetes {
-        host                      = "https://${google_container_cluster.cluster.endpoint}"
-        token                     = data.google_client_config.default.access_token
-        cluster_ca_certificate    = base64decode(
-            google_container_cluster.cluster.master_auth[0].cluster_ca_certificate
-        )
-    }
+  kubernetes {
+    host                   = google_container_cluster.cluster.endpoint
+    token                  = data.google_client_config.default.access_token
+    cluster_ca_certificate = base64decode(google_container_cluster.cluster.master_auth[0].cluster_ca_certificate)
+  }
 }
 
+# HTTP provider
 provider "http" {}

@@ -1,2 +1,14 @@
 apiVersion: v2
 name: devops-challenge
+description: A Helm chart for a DevOps challenge
+version: 1.0.0
+appVersion: 1.0.0
+keywords:
+- devops
+- challenge
+home: https://github.com/palmamanu/devops-challenge
+sources:
+- https://github.com/palmamanu/devops-challenge
+maintainers:
+- name: palmamanu 
+  email: palmamanu@gmail.com
